@@ -82,15 +82,26 @@ export class EmployeesService {
     id: string,
     { departmentId, email, isManager }: UpdateEmployeeDto,
   ) {
-    return this.employeeRepository.update(id, {
-      departmentId,
-      email,
-      isManager,
-    });
+    try {
+      await this.employeeRepository.update(id, {
+        departmentId,
+        email,
+        isManager,
+      });
+    } catch (err) {
+      return new BadRequestException('Error on update this employee');
+    }
+    return { message: 'Success on update' };
   }
 
   async remove(id: string) {
-    return this.employeeRepository.delete(id);
+    try {
+      await this.employeeRepository.delete(id);
+    } catch (err) {
+      return new BadRequestException('Error on update this employee');
+    }
+
+    return { message: 'Success on delete employee' };
   }
 
   async updateVacation(id: string, status: boolean) {
@@ -127,8 +138,15 @@ export class EmployeesService {
         );
       }
     }
-    return this.employeeRepository.update(id, {
-      onVacation: status,
-    });
+
+    try {
+      await this.employeeRepository.update(id, {
+        onVacation: status,
+      });
+    } catch (err) {
+      return new BadRequestException('Error on update this vacation');
+    }
+
+    return { message: 'Success on update vacation' };
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateDepartmentDto } from './dto/create-department.dto';
@@ -38,10 +38,22 @@ export class DepartmentsService {
   }
 
   async update(id: string, updateDepartmentDto: UpdateDepartmentDto) {
-    return this.departmentRepository.update(id, updateDepartmentDto);
+    try {
+      await this.departmentRepository.update(id, updateDepartmentDto);
+    } catch (err) {
+      return new BadRequestException('Error on update this department');
+    }
+
+    return { message: 'Success on update department' };
   }
 
   async remove(id: string) {
-    return this.departmentRepository.delete(id);
+    try {
+      await this.departmentRepository.delete(id);
+    } catch (err) {
+      return new BadRequestException('Error on update this department');
+    }
+
+    return { message: 'Success on update department' };
   }
 }
