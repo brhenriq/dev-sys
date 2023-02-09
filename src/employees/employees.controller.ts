@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Inject,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -13,7 +14,10 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
 @Controller('employees')
 export class EmployeesController {
-  constructor(private readonly employeesService: EmployeesService) {}
+  constructor(
+    @Inject(EmployeesService)
+    private readonly employeesService: EmployeesService,
+  ) {}
 
   @Post()
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
@@ -36,6 +40,11 @@ export class EmployeesController {
     @Body() updateEmployeeDto: UpdateEmployeeDto,
   ) {
     return this.employeesService.update(id, updateEmployeeDto);
+  }
+
+  @Patch('vacation/:id')
+  updateVacation(@Param('id') id: string, @Body() data: { status: boolean }) {
+    return this.employeesService.updateVacation(id, data.status);
   }
 
   @Delete(':id')

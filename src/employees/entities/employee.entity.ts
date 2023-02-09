@@ -12,6 +12,9 @@ export class Employee {
   _id: ObjectID;
 
   @Column()
+  departmentId: string;
+
+  @Column()
   name: string;
 
   @Column()
@@ -19,6 +22,9 @@ export class Employee {
 
   @Column()
   isManager: boolean;
+
+  @Column()
+  onVacation: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

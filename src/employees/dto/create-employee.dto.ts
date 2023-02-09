@@ -1,5 +1,6 @@
 export class CreateEmployeeDto {
-  public name: string;
-  public email: string;
-  public isManager: boolean;
+  name: string;
+  email: string;
+  isManager: boolean;
+  departmentId: string;
 }
